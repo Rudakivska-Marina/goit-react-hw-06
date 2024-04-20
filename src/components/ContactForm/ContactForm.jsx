@@ -1,7 +1,8 @@
 import { Formik, Form, Field, ErrorMessage} from 'formik'
 import * as yup from 'yup' 
 import css from './ContactForm.module.css'
-import {nanoid} from 'nanoid'
+import { useDispatch } from 'react-redux'
+import { addContact } from '../../redux/contactsSlice'
 
 const SignupSchema = yup.object().shape({
   name: yup.string().trim()
@@ -14,17 +15,17 @@ const SignupSchema = yup.object().shape({
     .required('fild Required!'),
 });
 
-
-function ContactForm({value, setContactList}){
+function ContactForm(){
 
 const values = {
   name: "",
   number: ""
 }
 
+const dispatch = useDispatch()
 
 function submit(data, actions){
-  setContactList([...value, {...data, [data.name]:data.value, id: nanoid()}]);
+  dispatch(addContact(data))
  data = values
   actions.resetForm();
 }
